@@ -7,5 +7,4 @@ JenTex = App(
 )
 
 if __name__ == "__main__":
-    JenTex.config()
     JenTex.run()
