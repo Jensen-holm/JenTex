@@ -21,10 +21,10 @@ class App:
         self.min_width = min_width
         self.max_width = max_width
 
-        self._widgets: list[tk.Widget] = []
-        self._buttons: list[tk.Button] = []
-        self._entries: list[tk.Entry] = []
-        self._frames: list[tk.Frame] = []
+        self._widgets: dict[str, tk.Widget] = {}
+        self._buttons: dict[str, tk.Button] = {}
+        self._entries: dict[str, tk.Entry] = {}
+        self._frames: dict[str, tk.Frame] = {}
         self._app = tk.Tk()
 
     @property
@@ -49,23 +49,29 @@ class App:
 
     @property
     def frames(self):
-        return self._entries
+        return self._frames
 
-    def add_frame(self):
-        return
+    def add_frame(self, name: str, row, col):
+        f = tk.Frame(self.app)
+        f.grid(
+            row=row,
+            column=col,
+        )
+        self.frames[f"{name}"] = f
 
-    def add_button(self, text: str, callback: Callable):
+    def add_button(self, text: str, callback: Callable, frame=""):
         assert isinstance(callback, Callable)
+        f = self.app if not frame else self.frames[frame]
         b = tk.Button(
-            self.app,
+            f,
             text=text,
             command=callback,
         )
-        self.widgets.append(b)
-        self.buttons.append(b)
+        self.widgets[f"{text} button"] = b
+        self.buttons[f"{text}"] = b
 
     def setup_widgets(self):
-        for w in self.widgets:
+        for w in self.widgets.values():
             w.pack()
 
     def config(self):
