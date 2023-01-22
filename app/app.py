@@ -85,6 +85,9 @@ class App:
             elif n == "right":
                 f.pack(side=tk.RIGHT)
 
+    def get_input(self, name: str):
+        return self.inputs[f"{name}"].get("1.0", tk.END)
+
     def config(self):
         self.app.title(self.name)
         self.app.geometry(self.geometry)

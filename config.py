@@ -8,7 +8,7 @@ JenTex = App(
 
 
 def save_button():
-    print("save button pressed")
+    print(JenTex.get_input("latex_input"))
 
 
 JenTex.add_frame(
