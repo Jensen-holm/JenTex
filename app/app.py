@@ -1,10 +1,3 @@
-from kivy.app import App
-from kivy.uix.label import Label
+import tkinter as tk
 
-
-class JenTex(App):
-
-    def build(self):
-        return Label(
-            text="Hello Kivy"
-        )
+app = tk.Tk()
