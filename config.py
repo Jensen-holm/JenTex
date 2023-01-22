@@ -1,4 +1,5 @@
 from app.app import App
+import latex
 
 JenTex = App(
     name="JenTex",
@@ -7,8 +8,14 @@ JenTex = App(
 )
 
 
-def save_button():
-    print(JenTex.get_input("latex_input"))
+def compile_button():
+    lines = JenTex.get_input(
+        "latex_input",
+    )
+    with open("document.tex", "w") as f:
+        f.write(lines)
+    doc = latex.build_pdf(lines)
+    doc.save_to("document.pdf")
 
 
 JenTex.add_frame(
@@ -32,6 +39,6 @@ JenTex.add_input(
 
 JenTex.add_button(
     text="save",
-    callback=save_button,
+    callback=compile_button,
     frame="right"
 )
