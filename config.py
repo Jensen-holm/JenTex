@@ -23,8 +23,15 @@ JenTex.add_frame(
     col=1,
 )
 
+JenTex.add_input(
+    name="latex_input",
+    width=100,
+    height=100,
+    frame="left",
+)
+
 JenTex.add_button(
     text="save",
     callback=save_button,
-    frame="right",
+    frame="right"
 )

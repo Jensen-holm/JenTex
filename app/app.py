@@ -23,7 +23,7 @@ class App:
 
         self._widgets: dict[str, tk.Widget] = {}
         self._buttons: dict[str, tk.Button] = {}
-        self._entries: dict[str, tk.Entry] = {}
+        self._inputs: dict[str, tk.Text] = {}
         self._frames: dict[str, tk.Frame] = {}
         self._app = tk.Tk()
 
@@ -44,19 +44,15 @@ class App:
         return self._buttons
 
     @property
-    def entries(self):
-        return self._entries
+    def inputs(self):
+        return self._inputs
 
     @property
     def frames(self):
         return self._frames
 
-    def add_frame(self, name: str, row, col):
-        f = tk.Frame(self.app)
-        f.grid(
-            row=row,
-            column=col,
-        )
+    def add_frame(self, name: str, row, col, bg_color="GREEN"):
+        f = tk.Frame(self.app, bg=bg_color)
         self.frames[f"{name}"] = f
 
     def add_button(self, text: str, callback: Callable, frame=""):
@@ -70,9 +66,24 @@ class App:
         self.widgets[f"{text} button"] = b
         self.buttons[f"{text}"] = b
 
+    def add_input(self, name, width, height, frame=""):
+        f = self.app if not frame else self.frames[frame]
+        tb = tk.Text(
+            f,
+            width=width,
+            height=height,
+        )
+        self.inputs[name] = tb
+        self.widgets[f"{name} input"] = tb
+
     def setup_widgets(self):
         for w in self.widgets.values():
             w.pack()
+        for n, f in self.frames.items():
+            if n == "left":
+                f.pack(side=tk.LEFT)
+            elif n == "right":
+                f.pack(side=tk.RIGHT)
 
     def config(self):
         self.app.title(self.name)
