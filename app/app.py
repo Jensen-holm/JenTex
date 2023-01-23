@@ -55,7 +55,7 @@ class App:
         f = tk.Frame(self.app, bg=bg_color)
         self.frames[f"{name}"] = f
 
-    def add_button(self, text: str, callback: Callable, frame=""):
+    def add_button(self, text: str, callback: Callable, frame="", locx=0, locy=0):
         assert isinstance(callback, Callable)
         f = self.app if not frame else self.frames[frame]
         b = tk.Button(
@@ -65,6 +65,11 @@ class App:
         )
         self.widgets[f"{text} button"] = b
         self.buttons[f"{text}"] = b
+        if locx or locy:
+            b.pack(
+                padx=locx,
+                pady=locy,
+            )
 
     def add_input(self, name, width, height, frame=""):
         f = self.app if not frame else self.frames[frame]
@@ -72,6 +77,7 @@ class App:
             f,
             width=width,
             height=height,
+            blockcursor=True,
         )
         self.inputs[name] = tb
         self.widgets[f"{name} input"] = tb

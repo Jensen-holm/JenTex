@@ -1,6 +1,8 @@
 from app.app import App
 import latex
 
+from tkinter import filedialog
+
 JenTex = App(
     name="JenTex",
     width=800,
@@ -8,14 +10,36 @@ JenTex = App(
 )
 
 
-def compile_button():
+def save_file(f_name: str, data):
+    with open(f_name, "w") as f:
+        f.write(data)
+
+
+def save():
+    try:
+        code = JenTex.get_input("latex_input")
+        output = latex.build_pdf(code)
+    except:
+        print("error compiling code")
+        return
+
+    directory = filedialog.askdirectory(
+        initialdir="/",
+        title="Save JenTex"
+    )
+    name = "doc"
+    save_file(
+        f_name=f"{directory}/{name}.tex",
+        data=code
+    )
+    output.save_to(f"{directory}/{name}.pdf")
+
+
+def compile():
     lines = JenTex.get_input(
         "latex_input",
     )
-    with open("document.tex", "w") as f:
-        f.write(lines)
-    doc = latex.build_pdf(lines)
-    doc.save_to("document.pdf")
+    latex.build_pdf(lines)
 
 
 JenTex.add_frame(
@@ -38,7 +62,13 @@ JenTex.add_input(
 )
 
 JenTex.add_button(
-    text="save",
-    callback=compile_button,
-    frame="right"
+    text="Compile",
+    callback=compile,
+    locx=1,
+    locy=1
+)
+
+JenTex.add_button(
+    text="Save",
+    callback=save,
 )
