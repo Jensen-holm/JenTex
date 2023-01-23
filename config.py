@@ -35,40 +35,33 @@ def save():
     output.save_to(f"{directory}/{name}.pdf")
 
 
-def compile():
-    lines = JenTex.get_input(
-        "latex_input",
-    )
-    latex.build_pdf(lines)
+def build():
+    """
+    Builds a temporary file and
+    displays it inside of its own
+    tkinter window for live preview editing
+    :return:
+    """
+    code = JenTex.get_input("latex_input")
+    doc = latex.build_pdf("temp.pdf")
 
-
-JenTex.add_frame(
-    name="left",
-    row=0,
-    col=0,
-)
-
-JenTex.add_frame(
-    name="right",
-    row=0,
-    col=1,
-)
 
 JenTex.add_input(
     name="latex_input",
     width=100,
     height=100,
-    frame="left",
 )
 
 JenTex.add_button(
-    text="Compile",
+    text="Preview",
     callback=compile,
-    locx=1,
-    locy=1
+    locx=10,
+    locy=10
 )
 
 JenTex.add_button(
     text="Save",
     callback=save,
+    locx=10,
+    locy=10,
 )
